@@ -1,0 +1,10 @@
+model User {
+    id           Int     @id @default(autoincrement())
+    companyName  String
+    siret        String  @unique
+    password     String
+    directorName String?
+
+    employees Employee[]
+    computers  Computer[]
+}

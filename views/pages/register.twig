@@ -1,0 +1,42 @@
+{% extends "../layouts/base.twig" %}
+
+{% block style %}
+	<link rel="stylesheet" href="./assets/css/register.css"/>
+{% endblock %}
+
+{% block title %}
+	<title>Inscription - RH</title>
+{% endblock %}
+
+{% block main %}
+	<main>
+		<section>
+			<h1>Inscription {{ user.companyName }}</h1>
+			<form method="post" action="/register">
+				<div>
+					<label for="companyName">Raison sociale</label>
+					<input type="text" id="companyName" name="companyName">
+				</div>
+				<div>
+					<label for="siret">SIRET</label>
+					<input type="text" id="siret" name="siret">
+				</div>
+				<div>
+					<label for="password">Mot de passe</label>
+					<input type="password" id="password" name="password">
+				</div>
+				<div>
+					<label for="confirmPassword">Confirmer le mot de passe</label>
+					<input type="password" id="confirmPassword" name="confirmPassword">
+					<p>{{ error.confirmPassword}}</p>
+				</div>
+
+				<div>
+					<label for="directorName">Nom du directeur (optionnel)</label>
+					<input type="text" id="directorName" name="directorName">
+				</div>
+				<button>S'inscrire</button>
+			</form>
+		</section>
+	</main>
+{% endblock %}

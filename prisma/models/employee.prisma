@@ -1,0 +1,14 @@
+model Employee {
+    id        Int     @id @default(autoincrement())
+    firstName String
+    lastName  String
+    email     String  @unique
+    password  String
+    age       Int?
+    gender    String?
+
+    userId Int
+    user   User @relation(fields: [userId], references: [id])
+
+    computers Computer[]
+}

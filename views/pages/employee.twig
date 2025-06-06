@@ -1,0 +1,69 @@
+{% extends "../layouts/base.twig" %}
+
+{% block style %}
+	<link rel="stylesheet" href="/assets/css/register.css"/>
+{% endblock %}
+
+{% block title %}
+	<title>
+		{% if employee %}Modifier{% else %}Ajouter
+		{% endif %}
+		un employé</title>
+
+{% endblock %}
+
+{% block main %}
+	<main>
+		<section>
+			<h1>
+				{% if employee %}
+					Modifier
+				{% else %}
+					Ajouter</h1>
+			{% endif %}
+			<form action={% if employee %} "/employee/updateEmployee/{{ employee.id }}" {% else %} "/employee/addEmployee" {% endif %} method="post">
+				<div>
+					<label for="firstName">Prénom</label>
+					<input type="text" id="firstName" name="firstName" value="{{ employee.firstName}}">
+				</div>
+				<div>
+					<label for="lastName">Nom</label>
+					<input type="text" id="lastName" name="lastName" value="{{ employee.lastName}}">
+				</div>
+				<div>
+					<label for="email">Email</label>
+					<input type="email" id="email" name="email" value="{{ employee.email}}">
+				</div>
+				<div>
+					<label for="age">Âge</label>
+					<input type="number" id="age" name="age" value="{{ employee.age}}">
+				</div>
+				<div>
+					<label for="gender">Genre</label>
+					<select id="gender" name="gender">
+						<option value="">Non spécifié</option>
+						<option value="M" {% if employee.gender == 'M' %} selected {% endif %}>Masculin</option>
+						<option value="F" {% if employee.gender == 'F' %} selected {% endif %}>Féminin</option>
+					</select>
+				</div>
+				<div>
+					<label for="password">
+						{% if employee %}
+							Nouveau mot de passe?
+						{% else %}
+							Mot de passe
+						{% endif %}
+					</label>
+					<input type="password" id="password" name="password" {% if not employee %} required {% endif %}>
+				</div>
+				<button>
+					{% if employee %}
+						Modifier
+					{% else %}
+						Ajouter
+					{% endif %}
+				</button>
+			</form>
+		</section>
+	</main>
+{% endblock %}

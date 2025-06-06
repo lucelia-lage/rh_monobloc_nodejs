@@ -1,0 +1,30 @@
+{% extends "../layouts/base.twig" %}
+
+{% block style %}
+    <link rel="stylesheet" href="./assets/css/register.css" />
+{% endblock %}
+
+{% block title %}
+    <title>Connexion - RH</title>
+{% endblock %}
+
+{% block main %}
+<main>
+    <section>
+        <h1>Connexion</h1>
+        <form method="post" action="/login">
+            <div>
+                <label for="siret">SIRET</label>
+                <input type="text" id="siret" name="siret" />
+                <p>{{ error.siret }}</p>
+            </div>
+            <div>
+                <label for="password">Mot de passe</label>
+                <input type="password" id="password" name="password" />
+                <p>{{ error.password}}</p>
+            </div>
+            <button>Se connecter</button>
+        </form>
+    </section>
+</main>
+{% endblock %}

@@ -1,0 +1,70 @@
+{% extends "../layouts/base.twig" %}
+
+{% block style %}
+	<link rel="stylesheet" href="./assets/css/register.css"/>
+{% endblock %}
+
+{% block title %}
+	<title>Accueil - RH</title>
+{% endblock %}
+
+{% block main %}
+	<main>
+		<section>
+			<h2>Bienvenue {{ user.companyName }}</h2>
+
+			<h3>Employés</h3>
+			<a href="/employee/addEmployee">Ajouter un employé</a>
+			<table>
+				<tr>
+					<th>Nom</th>
+					<th>Prénom</th>
+					<th>Email</th>
+					<th>Genre</th>
+					<th>Âge</th>
+					<th>Actions</th>
+				</tr>
+				{% for employee in employees %}
+					<tr>
+						<td>{{ employee.lastName }}</td>
+						<td>{{ employee.firstName }}</td>
+						<td>{{ employee.email }}</td>
+						<td>{{ employee.gender ?? 'N/A' }}</td>
+						<td>{{ employee.age ?? 'N/A' }}</td>
+						<td>
+							<a href="/employee/updateEmployee/{{ employee.id }}">Modifier</a>
+							<a href="/employee/deleteEmployee/{{ employee.id }}">Supprimer</a>
+						</td>
+					</tr>
+				{% endfor %}
+			</table>
+
+			<h3>Ordinateurs</h3>
+			<a href="/computer/addComputer">Ajouter un ordinateur</a>
+			<table>
+				<tr>
+					<th>Adresse MAC</th>
+					<th>Employé assigné</th>
+					<th>Actions</th>
+				</tr>
+				{% for computer in computers %}
+					<tr>
+						<td>{{ computer.macAddress }}</td>
+						<td>
+							{% if computer.employee %}
+								{{ computer.employee.firstName }}
+								{{ computer.employee.lastName }}
+							{% else %}
+								Aucun
+							{% endif %}
+						</td>
+						<td>
+							<a href="/computer/updateComputer/{{ computer.id }}">Modifier</a>
+							<a href="/computer/deleteComputer/{{ computer.id }}">Supprimer</a>
+						</td>
+					</tr>
+				{% endfor %}
+			</table>
+		</section>
+	</main>
+{% endblock %}
