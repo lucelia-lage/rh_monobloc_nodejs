@@ -18,23 +18,37 @@
 				{% if computer %}Modifier{% else %}Ajouter
 				{% endif %}
 				un ordinateur</h1>
+			
+			{% if error.general %}
+				<div class="error-message">
+					<p>{{ error.general }}</p>
+				</div>
+			{% endif %}
+
 			<form action={% if computer %} "/computer/updateComputer/{{ computer.id }}" {% else %} "/computer/addComputer" {% endif %} method="post">
 				<div>
 					<label for="macAddress">Adresse MAC</label>
-					<input type="text" id="macAddress" name="macAddress" value="{{ computer.macAddress}}">
+					<input type="text" id="macAddress" name="macAddress" 
+						   value="{{ formData.macAddress ?? computer.macAddress ?? '' }}">
+					{% if error.macAddress %}
+						<p class="field-error">{{ error.macAddress }}</p>
+					{% endif %}
 				</div>
 				<div>
 					<label for="employeeId">Assigner à un employé (facultatif)</label>
 					<select name="employeeId" id="employeeId">
 						<option value="">-- Aucun employé --</option>
 						{% for employee in employees %}
-							<option value="{{ employee.id }}" {% if computer and computer.employee and employee.id == computer.employee.id %} selected {% endif %}>
-								{{ employee.firstName }}
-								{{ employee.lastName }}
+							<option value="{{ employee.id }}" 
+								{% set selectedEmployeeId = formData.employeeId ?? (computer.employee ? computer.employee.id : '') %}
+								{% if employee.id == selectedEmployeeId %} selected {% endif %}>
+								{{ employee.firstName }} {{ employee.lastName }}
 							</option>
 						{% endfor %}
 					</select>
-
+					{% if error.employeeId %}
+						<p class="field-error">{{ error.employeeId }}</p>
+					{% endif %}
 				</div>
 				<button>
 					{% if computer %}Mettre à jour{% else %}Ajouter
