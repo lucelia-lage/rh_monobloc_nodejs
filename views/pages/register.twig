@@ -1,42 +1,91 @@
 {% extends "../layouts/base.twig" %}
-
 {% block style %}
-	<link rel="stylesheet" href="./assets/css/register.css"/>
+    <link rel="stylesheet" href="/assets/css/register.css"/>
 {% endblock %}
 
 {% block title %}
-	<title>Inscription - RH</title>
+    <title>Inscription - RH</title>
 {% endblock %}
 
 {% block main %}
-	<main>
-		<section>
-			<h1>Inscription {{ user.companyName }}</h1>
-			<form method="post" action="/register">
-				<div>
-					<label for="companyName">Raison sociale</label>
-					<input type="text" id="companyName" name="companyName">
-				</div>
-				<div>
-					<label for="siret">SIRET</label>
-					<input type="text" id="siret" name="siret">
-				</div>
-				<div>
-					<label for="password">Mot de passe</label>
-					<input type="password" id="password" name="password">
-				</div>
-				<div>
-					<label for="confirmPassword">Confirmer le mot de passe</label>
-					<input type="password" id="confirmPassword" name="confirmPassword">
-					<p>{{ error.confirmPassword}}</p>
-				</div>
+<main>
+    <section>
+        <h1>Inscription</h1>
+        <form method="post" action="/register" enctype="multipart/form-data">
+            <div>
+                <label for="avatar">Avatar</label>
+                <input type="file" id="avatar" name="avatar" accept="image/*" onchange="previewAvatar(this)">
+                <div id="avatar-preview" style="margin-top: 10px;"></div>
+            </div>
 
-				<div>
-					<label for="directorName">Nom du directeur (optionnel)</label>
-					<input type="text" id="directorName" name="directorName">
-				</div>
-				<button>S'inscrire</button>
-			</form>
-		</section>
-	</main>
+            <div>
+                <label for="companyName">Raison sociale</label>
+                <input type="text" id="companyName" name="companyName" required>
+                {% if error.companyName %}
+                    <p class="field-error">{{ error.companyName }}</p>
+                {% endif %}
+            </div>
+
+            <div>
+                <label for="siret">SIRET</label>
+                <input type="text" id="siret" name="siret" required>
+                {% if error.siret %}
+                    <p class="field-error">{{ error.siret }}</p>
+                {% endif %}
+            </div>
+
+            <!-- 🆕 Nouveau champ email -->
+            <div>
+                <label for="email">Email de l'entreprise</label>
+                <input type="email" id="email" name="email" required>
+                {% if error.email %}
+                    <p class="field-error">{{ error.email }}</p>
+                {% endif %}
+            </div>
+
+            <div>
+                <label for="password">Mot de passe</label>
+                <input type="password" id="password" name="password" required>
+                {% if error.password %}
+                    <p class="field-error">{{ error.password }}</p>
+                {% endif %}
+            </div>
+
+            <div>
+                <label for="confirmPassword">Confirmer le mot de passe</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" required>
+                {% if error.confirmPassword %}
+                    <p class="field-error">{{ error.confirmPassword }}</p>
+                {% endif %}
+            </div>
+
+            <div>
+                <label for="directorName">Nom du directeur (optionnel)</label>
+                <input type="text" id="directorName" name="directorName">
+                {% if error.directorName %}
+                    <p class="field-error">{{ error.directorName }}</p>
+                {% endif %}
+            </div>
+
+            <button>S'inscrire</button>
+        </form>
+    </section>
+</main>
+{% endblock %}
+
+{% block script %}
+<script>
+function previewAvatar(input) {
+    const preview = document.getElementById('avatar-preview');
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            preview.innerHTML = '<img src="' + e.target.result + '" alt="Aperçu" width="100" height="100" style="border-radius: 8px; object-fit: cover; border: 1px solid #ccc;">';
+        }
+        reader.readAsDataURL(input.files[0]);
+    } else {
+        preview.innerHTML = '';
+    }
+}
+</script>
 {% endblock %}

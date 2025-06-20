@@ -1,100 +1,107 @@
 {% extends "../layouts/base.twig" %}
-
 {% block style %}
-	<link rel="stylesheet" href="/assets/css/register.css"/>
+    <link rel="stylesheet" href="/assets/css/register.css"/>
 {% endblock %}
 
 {% block title %}
-	<title>
-		{% if employee %}Modifier{% else %}Ajouter
-		{% endif %}
-		un employé</title>
+    <title>
+        {% if employee %}Modifier{% else %}Ajouter {% endif %} un employé
+    </title>
 {% endblock %}
 
 {% block main %}
-	<main>
-		<section>
-			<h1>
-				{% if employee %}
-					Modifier
-				{% else %}
-					Ajouter
-				{% endif %}
-				un employé</h1>
-			
-			{% if error.general %}
-				<div class="error-message">
-					<p>{{ error.general }}</p>
-				</div>
-			{% endif %}
+<main>
+    <section>
+        <h1>
+            {% if employee %} Modifier {% else %} Ajouter {% endif %} un employé
+        </h1>
 
-			<form action={% if employee %} "/employee/updateEmployee/{{ employee.id }}" {% else %} "/employee/addEmployee" {% endif %} method="post">
-				<div>
-					<label for="firstName">Prénom</label>
-					<input type="text" id="firstName" name="firstName" 
-						   value="{{ formData.firstName ?? employee.firstName ?? '' }}">
-					{% if error.firstName %}
-						<p class="field-error">{{ error.firstName }}</p>
-					{% endif %}
-				</div>
-				<div>
-					<label for="lastName">Nom</label>
-					<input type="text" id="lastName" name="lastName" 
-						   value="{{ formData.lastName ?? employee.lastName ?? '' }}">
-					{% if error.lastName %}
-						<p class="field-error">{{ error.lastName }}</p>
-					{% endif %}
-				</div>
-				<div>
-					<label for="email">Email</label>
-					<input type="email" id="email" name="email" 
-						   value="{{ formData.email ?? employee.email ?? '' }}">
-					{% if error.email %}
-						<p class="field-error">{{ error.email }}</p>
-					{% endif %}
-				</div>
-				<div>
-					<label for="age">Âge</label>
-					<input type="number" id="age" name="age" 
-						   value="{{ formData.age ?? employee.age ?? '' }}">
-					{% if error.age %}
-						<p class="field-error">{{ error.age }}</p>
-					{% endif %}
-				</div>
-				<div>
-					<label for="gender">Genre</label>
-					<select id="gender" name="gender">
-						<option value="">Non spécifié</option>
-						{% set selectedGender = formData.gender ?? employee.gender ?? '' %}
-						<option value="M" {% if selectedGender == 'M' %} selected {% endif %}>Masculin</option>
-						<option value="F" {% if selectedGender == 'F' %} selected {% endif %}>Féminin</option>
-					</select>
-					{% if error.gender %}
-						<p class="field-error">{{ error.gender }}</p>
-					{% endif %}
-				</div>
-				<div>
-					<label for="password">
-						{% if employee %}
-							Nouveau mot de passe (laisser vide pour conserver l'actuel)
-						{% else %}
-							Mot de passe
-						{% endif %}
-					</label>
-					<input type="password" id="password" name="password" 
-						   {% if not employee %} required {% endif %}>
-					{% if error.password %}
-						<p class="field-error">{{ error.password }}</p>
-					{% endif %}
-				</div>
-				<button>
-					{% if employee %}
-						Modifier
-					{% else %}
-						Ajouter
-					{% endif %}
-				</button>
-			</form>
-		</section>
-	</main>
+        {% if error.general %}
+            <div class="error-message">
+                <p>{{ error.general }}</p>
+            </div>
+        {% endif %}
+
+        <form action={% if employee %} "/employee/updateEmployee/{{ employee.id }}" {% else %} "/employee/addEmployee" {% endif %} method="post" enctype="multipart/form-data">
+            
+            <div>
+                <div>
+                    <label for="avatar">Avatar</label>
+                    <input type="file" id="avatar" name="avatar">
+                    
+                    {% if employee.avatar %}
+                        <input type="hidden" name="existingAvatar" value="{{ employee.avatar }}">
+                        <div style="margin-top: 10px;">
+                            <p>Avatar actuel :</p>
+                            <img src="{{ employee.avatar }}" alt="Avatar de {{ employee.firstName }} {{ employee.lastName }}" 
+                                 width="100" height="100" 
+                                 style="border: 1px solid #ccc; border-radius: 8px; object-fit: cover;">
+                        </div>
+                    {% endif %}
+                </div>
+                
+                <label for="firstName">Prénom</label>
+                <input type="text" id="firstName" name="firstName" value="{{ formData.firstName ?? employee.firstName ?? '' }}">
+                {% if error.firstName %}
+                    <p class="field-error">{{ error.firstName }}</p>
+                {% endif %}
+            </div>
+
+            <div>
+                <label for="lastName">Nom</label>
+                <input type="text" id="lastName" name="lastName" value="{{ formData.lastName ?? employee.lastName ?? '' }}">
+                {% if error.lastName %}
+                    <p class="field-error">{{ error.lastName }}</p>
+                {% endif %}
+            </div>
+
+            <div>
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" value="{{ formData.email ?? employee.email ?? '' }}">
+                {% if error.email %}
+                    <p class="field-error">{{ error.email }}</p>
+                {% endif %}
+            </div>
+
+            <div>
+                <label for="age">Âge</label>
+                <input type="number" id="age" name="age" value="{{ formData.age ?? employee.age ?? '' }}">
+                {% if error.age %}
+                    <p class="field-error">{{ error.age }}</p>
+                {% endif %}
+            </div>
+
+            <div>
+                <label for="gender">Genre</label>
+                <select id="gender" name="gender">
+                    <option value="">Non spécifié</option>
+                    {% set selectedGender = formData.gender ?? employee.gender ?? '' %}
+                    <option value="M" {% if selectedGender == 'M' %} selected {% endif %}>Masculin</option>
+                    <option value="F" {% if selectedGender == 'F' %} selected {% endif %}>Féminin</option>
+                </select>
+                {% if error.gender %}
+                    <p class="field-error">{{ error.gender }}</p>
+                {% endif %}
+            </div>
+
+            <div>
+                <label for="password">
+                    {% if employee %}
+                        Nouveau mot de passe (laisser vide pour conserver l'actuel)
+                    {% else %}
+                        Mot de passe
+                    {% endif %}
+                </label>
+                <input type="password" id="password" name="password" {% if not employee %} required {% endif %}>
+                {% if error.password %}
+                    <p class="field-error">{{ error.password }}</p>
+                {% endif %}
+            </div>
+
+            <button>
+                {% if employee %} Modifier {% else %} Ajouter {% endif %}
+            </button>
+        </form>
+    </section>
+</main>
 {% endblock %}

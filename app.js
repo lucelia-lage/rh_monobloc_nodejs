@@ -3,11 +3,15 @@ const userRoutes = require("./src/routes/userRoutes");
 const mainRoutes = require("./src/routes/mainRoutes");
 const computerRoutes = require("./src/routes/computerRoutes");
 const employeeRoutes = require("./src/routes/employeeRoutes");
+const testRoutes = require("./src/routes/testRoutes"); // Import de la route de test
+
 
 const session = require("express-session");
 require('dotenv').config()
 
 const app = express();
+
+app.use(testRoutes); // Utilisation de la route de test
 
 app.set("view engine", "twig"); // j'ai dû ajouter cette ligne pour que Twig soit utilisé comme moteur de rendu
 

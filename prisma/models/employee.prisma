@@ -6,6 +6,7 @@ model Employee {
     password  String
     age       Int?
     gender    String?
+    avatar       String?
 
     userId Int
     user   User @relation(fields: [userId], references: [id])

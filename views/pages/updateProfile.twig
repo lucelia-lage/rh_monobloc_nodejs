@@ -1,0 +1,118 @@
+{% extends "../layouts/base.twig" %}
+{% block style %}
+    <link rel="stylesheet" href="/assets/css/register.css"/>
+{% endblock %}
+
+{% block title %}
+    <title>Modifier le profil</title>
+{% endblock %}
+
+{% block main %}
+<main>
+    <section>
+        <h1>Modifier le profil de l'entreprise</h1>
+
+        {% if error.general %}
+            <div class="error-message">
+                <p>{{ error.general }}</p>
+            </div>
+        {% endif %}
+
+        <form action="/user/updateProfile" method="post" enctype="multipart/form-data">
+            
+            <div>
+                <label for="avatar">Avatar de l'entreprise</label>
+                <input type="file" id="avatar" name="avatar" accept="image/*" onchange="previewAvatar(this)">
+                
+                {% if user.avatar %}
+                    <input type="hidden" name="existingAvatar" value="{{ user.avatar }}">
+                    <div style="margin-top: 10px;">
+                        <p>Avatar actuel :</p>
+                        <div id="current-avatar">
+                            <img src="{{ user.avatar }}" alt="Avatar de {{ user.directorName or user.companyName }}" 
+                                 width="100" height="100" 
+                                 style="border: 1px solid #ccc; border-radius: 8px; object-fit: cover;">
+                        </div>
+                    </div>
+                {% endif %}
+                <div id="avatar-preview" style="margin-top: 10px;"></div>
+            </div>
+            
+            <div>
+                <label for="companyName">Raison sociale</label>
+                <input type="text" id="companyName" name="companyName" value="{{ formData.companyName ?? user.companyName }}" required>
+                {% if error.companyName %}
+                    <p class="field-error">{{ error.companyName }}</p>
+                {% endif %}
+            </div>
+
+            <!-- 🆕 Champ email -->
+            <div>
+                <label for="email">Email de l'entreprise</label>
+                <input type="email" id="email" name="email" value="{{ formData.email ?? user.email }}" required>
+                {% if error.email %}
+                    <p class="field-error">{{ error.email }}</p>
+                {% endif %}
+            </div>
+            
+            <div>
+                <label for="directorName">Nom du directeur</label>
+                <input type="text" id="directorName" name="directorName" value="{{ formData.directorName ?? user.directorName ?? '' }}">
+                {% if error.directorName %}
+                    <p class="field-error">{{ error.directorName }}</p>
+                {% endif %}
+            </div>
+
+            <div>
+                <label for="siret">SIRET (lecture seule)</label>
+                <input type="text" id="siret" name="siret" value="{{ user.siret }}" readonly style="background-color: #f5f5f5; cursor: not-allowed;">
+                <small style="color: #666;">Le SIRET ne peut pas être modifié</small>
+            </div>
+            
+            <div>
+                <label for="password">Nouveau mot de passe (laisser vide pour conserver l'actuel)</label>
+                <input type="password" id="password" name="password">
+                {% if error.password %}
+                    <p class="field-error">{{ error.password }}</p>
+                {% endif %}
+            </div>
+
+            <div>
+                <label for="confirmPassword">Confirmer le nouveau mot de passe</label>
+                <input type="password" id="confirmPassword" name="confirmPassword">
+                {% if error.confirmPassword %}
+                    <p class="field-error">{{ error.confirmPassword }}</p>
+                {% endif %}
+            </div>
+            
+            <button type="submit">Modifier le profil</button>
+            <a href="/" style="margin-left: 10px; text-decoration: none; color: #666;">Annuler</a>
+        </form>
+    </section>
+</main>
+{% endblock %}
+
+{% block script %}
+<script>
+function previewAvatar(input) {
+    const preview = document.getElementById('avatar-preview');
+    const currentAvatar = document.getElementById('current-avatar');
+    
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            preview.innerHTML = '<p>Nouvel avatar :</p><img src="' + e.target.result + '" alt="Aperçu" width="100" height="100" style="border-radius: 8px; object-fit: cover; border: 1px solid #ccc;">';
+            if (currentAvatar) {
+                currentAvatar.style.opacity = '0.5';
+            }
+        }
+        reader.readAsDataURL(input.files[0]);
+    } else {
+        preview.innerHTML = '';
+        if (currentAvatar) {
+            currentAvatar.style.opacity = '1';
+        }
+    }
+}
+</script>
+{% endblock %} 

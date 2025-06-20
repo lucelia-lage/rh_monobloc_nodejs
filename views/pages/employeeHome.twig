@@ -1,0 +1,34 @@
+{% extends "../layouts/base.twig" %}
+{% block style %}
+    <link rel="stylesheet" href="/assets/css/register.css"/>
+{% endblock %}
+
+{% block title %}
+    <title>Accueil - Employé</title>
+{% endblock %}
+
+{% block main %}
+<main>
+    <section>
+        <div style="display: flex; align-items: center; gap: 20px; margin-bottom: 20px;">
+            {% if user.avatar %}
+                <img src="{{ user.avatar }}" alt="Avatar de {{ user.firstName }}" 
+                     width="80" height="80" 
+                     style="border-radius: 50%; object-fit: cover; border: 3px solid #ddd;">
+            {% endif %}
+            <div>
+                <h2>Bienvenue {{ user.firstName }} {{ user.lastName }}</h2>
+                <p>Email: {{ user.email }}</p>
+            </div>
+        </div>
+        
+        {% if computer %}
+            <p>Adresse MAC de votre ordinateur: {{ computer.macAddress }}</p>
+        {% else %}
+            <p>Aucun ordinateur associé.</p>
+        {% endif %}
+    </section>
+</main>
+{% endblock %}
+
+

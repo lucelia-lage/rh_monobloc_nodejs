@@ -1,70 +1,109 @@
 {% extends "../layouts/base.twig" %}
-
 {% block style %}
-	<link rel="stylesheet" href="./assets/css/register.css"/>
+    <link rel="stylesheet" href="/assets/css/register.css"/>
 {% endblock %}
 
 {% block title %}
-	<title>Accueil - RH</title>
+    <title>Accueil - RH</title>
 {% endblock %}
 
 {% block main %}
-	<main>
-		<section>
-			<h2>Bienvenue {{ user.companyName }}</h2>
+<main>
+    <section>
+        <!-- Section d'accueil avec avatar du chef -->
+        <div style="display: flex; align-items: center; gap: 20px; margin-bottom: 30px; padding: 20px; border-bottom: 2px solid #eee;">
+            {% if user.avatar %}
+                <img src="{{ user.avatar }}" alt="Avatar de {{ user.directorName or user.companyName }}"
+                     width="80" height="80"
+                     style="border-radius: 50%; object-fit: cover; border: 3px solid #ddd;">
+            {% else %}
+                <div style="width: 80px; height: 80px; border-radius: 50%; background-color: #f0f0f0; display: flex; align-items: center; justify-content: center; border: 3px solid #ddd;">
+                    <span style="font-size: 24px; color: #999;">👤</span>
+                </div>
+            {% endif %}
+            <div style="flex-grow: 1;">
+                <h2>Bienvenue {{ user.companyName }}</h2>
+                {% if user.directorName %}
+                    <p><strong>Directeur :</strong> {{ user.directorName }}</p>
+                {% endif %}
+                <p><strong>Email :</strong> {{ user.email }}</p>
+                <p><strong>SIRET :</strong> {{ user.siret }}</p>
+            </div>
+            <div>
+                <a href="/user/updateProfile" style="background-color: #007bff; color: white; padding: 10px 15px; text-decoration: none; border-radius: 5px; font-size: 14px;">
+                     Modifier le profil
+                </a>
+            </div>
+        </div>
+        
+        <h3>Employés</h3>
+        <a href="/employee/addEmployee">Ajouter un employé</a>
+        <table>
+            <tr>
+                <th>Avatar</th>
+                <th>Nom</th>
+                <th>Prénom</th>
+                <th>Email</th>
+                <th>Genre</th>
+                <th>Âge</th>
+                <th>Actions</th>
+            </tr>
+            {% for employee in employees %}
+            <tr>
+                <td>
+                    {% if employee.avatar %}
+                        <img src="{{ employee.avatar }}" alt="Avatar" 
+                             width="50" height="50" 
+                             style="border-radius: 50%; object-fit: cover;">
+                    {% else %}
+                        <span style="color: #999;">Aucun</span>
+                    {% endif %}
+                </td>
+                <td>{{ employee.lastName }}</td>
+                <td>{{ employee.firstName }}</td>
+                <td>{{ employee.email }}</td>
+                <td>{{ employee.gender ?? 'N/A' }}</td>
+                <td>{{ employee.age ?? 'N/A' }}</td>
+                <td>
+                    <a href="/employee/updateEmployee/{{ employee.id }}">Modifier</a>
+                    <a href="/employee/deleteEmployee/{{ employee.id }}">Supprimer</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
 
-			<h3>Employés</h3>
-			<a href="/employee/addEmployee">Ajouter un employé</a>
-			<table>
-				<tr>
-					<th>Nom</th>
-					<th>Prénom</th>
-					<th>Email</th>
-					<th>Genre</th>
-					<th>Âge</th>
-					<th></th>
-				</tr>
-				{% for employee in employees %}
-					<tr>
-						<td>{{ employee.lastName }}</td>
-						<td>{{ employee.firstName }}</td>
-						<td>{{ employee.email }}</td>
-						<td>{{ employee.gender ?? 'N/A' }}</td>
-						<td>{{ employee.age ?? 'N/A' }}</td>
-						<td>
-							<a href="/employee/updateEmployee/{{ employee.id }}">Modifier</a>
-							<a href="/employee/deleteEmployee/{{ employee.id }}">Supprimer</a>
-						</td>
-					</tr>
-				{% endfor %}
-			</table>
-
-			<h3>Ordinateurs</h3>
-			<a href="/computer/addComputer">Ajouter un ordinateur</a>
-			<table>
-				<tr>
-					<th>Adresse MAC</th>
-					<th>Employé assigné</th>
-					<th></th>
-				</tr>
-				{% for computer in computers %}
-					<tr>
-						<td>{{ computer.macAddress }}</td>
-						<td>
-							{% if computer.employee %}
-								{{ computer.employee.firstName }}
-								{{ computer.employee.lastName }}
-							{% else %}
-								Aucun
-							{% endif %}
-						</td>
-						<td>
-							<a href="/computer/updateComputer/{{ computer.id }}">Modifier</a>
-							<a href="/computer/deleteComputer/{{ computer.id }}">Supprimer</a>
-						</td>
-					</tr>
-				{% endfor %}
-			</table>
-		</section>
-	</main>
+        <h3>Ordinateurs</h3>
+        <a href="/computer/addComputer">Ajouter un ordinateur</a>
+        <table>
+            <tr>
+                <th>Adresse MAC</th>
+                <th>Employé assigné</th>
+                <th>Actions</th>
+            </tr>
+            {% for computer in computers %}
+            <tr>
+                <td>{{ computer.macAddress }}</td>
+                <td>
+                    {% if computer.employee %}
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            {% if computer.employee.avatar %}
+                                <img src="{{ computer.employee.avatar }}" alt="Avatar" 
+                                     width="30" height="30" 
+                                     style="border-radius: 50%; object-fit: cover;">
+                            {% endif %}
+                            <span>{{ computer.employee.firstName }} {{ computer.employee.lastName }}</span>
+                        </div>
+                    {% else %}
+                        Aucun
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="/computer/updateComputer/{{ computer.id }}">Modifier</a>
+                    <a href="/computer/deleteComputer/{{ computer.id }}">Supprimer</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </section>
+</main>
 {% endblock %}

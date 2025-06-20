@@ -2,8 +2,10 @@ model User {
     id           Int     @id @default(autoincrement())
     companyName  String
     siret        String  @unique
+    email        String @unique
     password     String
     directorName String?
+    avatar       String?
 
     employees Employee[]
     computers  Computer[]
