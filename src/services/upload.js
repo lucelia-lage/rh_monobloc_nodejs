@@ -1,6 +1,6 @@
 const multer = require('multer');
 
-// Configuration du stockage
+// Config du stockage
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, 'public/uploads/');
@@ -10,7 +10,7 @@ const storage = multer.diskStorage({
   }
 });
 
-// Initialisation de Multer
+// Initialisation de Multer : 
 const upload = multer({ storage: storage });
 
 module.exports = upload;

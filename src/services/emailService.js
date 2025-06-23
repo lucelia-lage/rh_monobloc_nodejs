@@ -1,8 +1,8 @@
 const nodemailer = require('nodemailer');
 
-// Configuration du transporteur d'emails
+// Config transporteur d'emails : 
 const createTransporter = () => {
-  return nodemailer.createTransporter({
+  return nodemailer.createTransport({ 
     service: 'gmail',
     auth: {
       user: process.env.EMAIL_USER,
@@ -11,12 +11,11 @@ const createTransporter = () => {
   });
 };
 
-// Fonction pour envoyer l'email de bienvenue au chef d'entreprise
+// Fonction pour envoyer l'email de bienvenue au chef d'entreprise : 
 const sendWelcomeEmail = async (userEmail, userData) => {
   try {
     const transporter = createTransporter();
     
-    // Configuration de l'email
     const mailOptions = {
       from: {
         name: 'RHelp You',
@@ -30,14 +29,14 @@ const sendWelcomeEmail = async (userEmail, userData) => {
     
     // Envoi de l'email
     const info = await transporter.sendMail(mailOptions);
-    console.log('✅ Email envoyé avec succès:', info.messageId);
+    console.log(' Email envoyé avec succès:', info.messageId);
     return { 
       success: true, 
       messageId: info.messageId 
     };
     
   } catch (error) {
-    console.error('❌ Erreur lors de l\'envoi de l\'email:', error);
+    console.error('Erreur lors de l\'envoi de l\'email:', error);
     return { 
       success: false, 
       error: error.message 
@@ -45,7 +44,7 @@ const sendWelcomeEmail = async (userEmail, userData) => {
   }
 };
 
-// Fonction pour envoyer l'email de bienvenue aux employés
+// Fonction pour envoyer l'email de bienvenue aux employés : 
 const sendEmployeeWelcomeEmail = async (employeeEmail, employeeData, companyData) => {
   try {
     const transporter = createTransporter();
@@ -62,14 +61,14 @@ const sendEmployeeWelcomeEmail = async (employeeEmail, employeeData, companyData
     };
     
     const info = await transporter.sendMail(mailOptions);
-    console.log('✅ Email employé envoyé avec succès:', info.messageId);
+    console.log('Email employé envoyé avec succès:', info.messageId);
     return { 
       success: true, 
       messageId: info.messageId 
     };
     
   } catch (error) {
-    console.error('❌ Erreur lors de l\'envoi de l\'email employé:', error);
+    console.error('Erreur lors de l\'envoi de l\'email employé:', error);
     return { 
       success: false, 
       error: error.message 
@@ -77,7 +76,7 @@ const sendEmployeeWelcomeEmail = async (employeeEmail, employeeData, companyData
   }
 };
 
-// Génération du contenu HTML de l'email pour chef d'entreprise
+// Génération du contenu HTML de l'email pour chef d'entreprise : 
 const generateWelcomeEmailHTML = (userData) => {
   return `
     <!DOCTYPE html>
@@ -180,7 +179,7 @@ const generateWelcomeEmailHTML = (userData) => {
   `;
 };
 
-// Génération du contenu HTML de l'email pour employé
+// Génération du contenu HTML de l'email pour employé : 
 const generateEmployeeWelcomeEmailHTML = (employeeData, companyData) => {
   return `
     <!DOCTYPE html>
@@ -279,7 +278,7 @@ const generateEmployeeWelcomeEmailHTML = (employeeData, companyData) => {
   `;
 };
 
-// Version texte de l'email chef d'entreprise
+// Version texte de l'email chef d'entreprise 
 const generateWelcomeEmailText = (userData) => {
   return `
 🎉 Bienvenue sur RHelp You !
@@ -360,10 +359,10 @@ const testEmailConnection = async () => {
   try {
     const transporter = createTransporter();
     await transporter.verify();
-    console.log('✅ Configuration email valide');
+    console.log('Configuration email valide');
     return true;
   } catch (error) {
-    console.error('❌ Erreur de configuration email:', error);
+    console.error('Erreur de configuration email:', error);
     return false;
   }
 };

@@ -1,13 +1,17 @@
 <header>
-  <nav>
-    <ul>
-      {% if user %}
-        <li><a href="/logout">Déconnexion</a></li>
-        <li><a href="/home">Accueil</a></li>
-      {% else %}
-        <li><a href="/register">Inscription</a></li>
-        <li><a href="/login">Connexion</a></li>
-      {% endif %}
-    </ul>
-  </nav>
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <a href="/" class="logo">RHelp</span> You</a>
+        <nav>
+            <ul>
+                {% if user %}
+                    <li><a href="/logout">Déconnexion</a></li>
+                    <li><a href="/home">Accueil</a></li>
+                {% else %}
+                    <li><a href="/register">Inscription</a></li>
+                    <li><a href="/login">Connexion</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+    </div>
 </header>
+

@@ -6,7 +6,6 @@ model User {
     password     String
     directorName String?
     avatar       String?
-
     employees Employee[]
     computers  Computer[]
 }

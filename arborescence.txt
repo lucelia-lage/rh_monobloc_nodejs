@@ -1,0 +1,70 @@
+├── app.js
+├── arborescence.js
+├── fusion_code.js
+├── generated/
+│   └── prisma/
+│       ├── client.js
+│       ├── default.js
+│       ├── edge.js
+│       ├── index-browser.js
+│       ├── index.js
+│       ├── runtime/
+│       │   ├── edge-esm.js
+│       │   ├── edge.js
+│       │   ├── index-browser.js
+│       │   ├── library.js
+│       │   ├── react-native.js
+│       │   ├── wasm-compiler-edge.js
+│       │   └── wasm-engine-edge.js
+│       ├── schema.prisma
+│       └── wasm.js
+├── prisma/
+│   ├── migrations/
+│   │   ├── 20250604132654_/
+│   │   ├── 20250618165903_add_avatar_to_employee/
+│   │   ├── 20250619145756_/
+│   ├── models/
+│   │   ├── computer.prisma
+│   │   ├── employee.prisma
+│   │   └── user.prisma
+│   └── schema.prisma
+├── public/
+│   ├── assets/
+│   │   └── css/
+│   │       ├── register.css
+│   │       ├── style.css
+│   │       └── tailwind.css
+│   └── uploads/
+├── src/
+│   ├── controllers/
+│   │   ├── computerController.js
+│   │   ├── employeeController.js
+│   │   ├── mainController.js
+│   │   └── userController.js
+│   ├── routes/
+│   │   ├── computerRoutes.js
+│   │   ├── employeeRoutes.js
+│   │   ├── mainRoutes.js
+│   │   ├── testRoutes.js
+│   │   └── userRoutes.js
+│   └── services/
+│       ├── authguard.js
+│       ├── emailService.js
+│       ├── extensions/
+│       │   └── hashPasswordExtension.js
+│       └── upload.js
+├── testEmail.js
+└── views/
+    ├── layouts/
+    │   └── base.twig
+    ├── pages/
+    │   ├── computer.twig
+    │   ├── employee.twig
+    │   ├── employeeHome.twig
+    │   ├── home.twig
+    │   ├── login.twig
+    │   ├── register.twig
+    │   └── updateProfile.twig
+    └── partials/
+        ├── footer.twig
+        └── header.twig

@@ -46,7 +46,7 @@ exports.postAddComputer = async (req, res) => {
             where: { userId: req.session.user.id }
         });
         
-        // Gérer les erreurs de base de données Prisma
+        // gestion d'erreurs de base de données Prisma : 
         let customError = error;
         if (error.code === 'P2002') {
             if (error.meta?.target?.includes('macAddress')) {
@@ -145,7 +145,7 @@ exports.postUpdateComputer = async (req, res) => {
             where: { userId: req.session.user.id }
         });
         
-        // Gérer les erreurs de base de données Prisma
+        // gestions des erreurs de base de données Prisma
         let customError = error;
         if (error.code === 'P2002') {
             if (error.meta?.target?.includes('macAddress')) {
@@ -162,5 +162,54 @@ exports.postUpdateComputer = async (req, res) => {
             employees,
             formData: req.body // conserve les données saisies
         });
+    }
+};
+
+exports.reportDefective = async (req, res) => {
+    try {
+        const computerId = parseInt(req.params.id);
+        const reportedBy = req.session.user.role === 'employee' ? 'employee' : 'user';
+        
+        await prisma.computer.update({
+            where: { id: computerId },
+            data: {
+                isDefective: true,
+                defectiveAt: new Date(),
+                defectiveReportedBy: reportedBy
+            }
+        });
+        
+        console.log(" Panne déclarée avec succès");
+        
+        //selon le type d'utilisateur, rediriger vers la bonne page : 
+        if (req.session.user.role === 'employee') {
+            res.redirect("/employee/home");
+        } else {
+            res.redirect("/home");
+        }
+    } catch (error) {
+        console.error(" Erreur lors de la déclaration de panne:", error);
+        res.redirect("/home");
+    }
+};
+
+exports.resolveDefective = async (req, res) => {
+    try {
+        const computerId = parseInt(req.params.id);
+        
+        await prisma.computer.update({
+            where: { id: computerId },
+            data: {
+                isDefective: false,
+                defectiveAt: null,
+                defectiveReportedBy: null
+            }
+        });
+        
+        console.log(" Panne résolue avec succès");
+        res.redirect("/home");
+    } catch (error) {
+        console.error(" Erreur lors de la résolution de panne:", error);
+        res.redirect("/home");
     }
 };

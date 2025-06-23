@@ -5,12 +5,12 @@ const authguard = require("../services/authguard");
 
 router.get("/employee/home", authguard, employeeController.getEmployeeHome);
 
-router.get("/employee/addEmployee", employeeController.getAddEmployee);
-router.post("/employee/addEmployee", employeeController.postAddEmployee);
+router.get("/employee/addEmployee", authguard, employeeController.getAddEmployee);
+router.post("/employee/addEmployee", authguard, employeeController.postAddEmployee);
 
-router.get("/employee/updateEmployee/:id", employeeController.getUpdateEmployee);
-router.post("/employee/updateEmployee/:id", employeeController.postUpdateEmployee);
+router.get("/employee/updateEmployee/:id", authguard, employeeController.getUpdateEmployee);
+router.post("/employee/updateEmployee/:id", authguard, employeeController.postUpdateEmployee);
 
-router.get("/employee/deleteEmployee/:id", employeeController.deleteEmployee);
+router.get("/employee/deleteEmployee/:id", authguard, employeeController.deleteEmployee);
 
 module.exports = router;

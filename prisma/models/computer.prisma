@@ -1,10 +1,11 @@
 model Computer {
-    id         Int    @id @default(autoincrement()) 
-    macAddress String @unique 
-    
-    userId     Int @unique 
-    user       User   @relation(fields: [userId], references: [id]) 
-
+    id         Int    @id @default(autoincrement())
+    macAddress String @unique
+    isDefective       Boolean   @default(false)
+    defectiveAt       DateTime?
+    defectiveReportedBy String? // employé ou chef d'entreprise? pour savoir qui a déclaré
+    userId     Int @unique
+    user       User   @relation(fields: [userId], references: [id])
     employeeId Int?  @unique
     employee   Employee? @relation(fields: [employeeId], references: [id])
 }

@@ -2,17 +2,16 @@ const express = require("express");
 const router = express.Router();
 const emailService = require("../services/emailService");
 
-// Route de test pour vérifier la configuration email
-// ⚠️ À supprimer en production !
+// Route pour tester la configuration de l'email : 
 router.get("/test-email", async (req, res) => {
     try {
-        // Test de la connexion
+        
         const connectionTest = await emailService.testEmailConnection();
         
         if (!connectionTest) {
             return res.json({
                 success: false,
-                message: "❌ Configuration email invalide"
+                message: " Configuration email invalide"
             });
         }
 
@@ -24,20 +23,20 @@ router.get("/test-email", async (req, res) => {
         };
 
         const result = await emailService.sendWelcomeEmail(
-            "ton_email_de_test@gmail.com", // 👈 Remplace par ton email
+            "lu.lagealmeida@gmail.com", 
             testData
         );
 
         res.json({
             success: result.success,
-            message: result.success ? "✅ Email de test envoyé !" : "❌ Erreur envoi email",
+            message: result.success ? " Email de test envoyé !" : " Erreur envoi email",
             details: result
         });
 
     } catch (error) {
         res.json({
             success: false,
-            message: "❌ Erreur lors du test",
+            message: " Erreur lors du test",
             error: error.message
         });
     }

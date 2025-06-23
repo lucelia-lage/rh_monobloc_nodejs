@@ -20,13 +20,13 @@ exports.postRegister = [
         throw { confirmPassword: "Veuillez renseigner des mots de passe identiques" };
       }
 
-      // Création de l'utilisateur avec email
+      // utilisateur avec email
       const user = await prisma.user.create({
         data: {
           companyName,
           siret,
-          email, // 🆕 Ajout du champ email
-          password, // L'extension se charge du hachage
+          email, 
+          password, 
           directorName,
           avatar: req.file ? '/uploads/' + req.file.filename : null
         }
@@ -34,10 +34,9 @@ exports.postRegister = [
 
       console.log("Utilisateur enregistré avec succès");
 
-      // 🎯 ENVOI DE L'EMAIL DE BIENVENUE
       try {
         const emailResult = await emailService.sendWelcomeEmail(
-          email, // 🆕 Utilisation du vrai email de l'utilisateur
+          email, 
           {
             companyName,
             siret,
@@ -47,14 +46,14 @@ exports.postRegister = [
         );
 
         if (emailResult.success) {
-          console.log('✅ Email de bienvenue envoyé avec succès');
+          console.log(' Email de bienvenue envoyé avec succès');
         } else {
-          console.error('❌ Erreur envoi email:', emailResult.error);
-          // On continue même si l'email échoue (l'inscription reste valide)
+          console.error(' Erreur envoi email:', emailResult.error);
+          // On continue même si l'email ne marche pas (l'inscription reste valide)
         }
       } catch (emailError) {
-        console.error('❌ Erreur critique email:', emailError);
-        // L'inscription reste valide même si l'email échoue
+        console.error(' Erreur critique email:', emailError);
+        // L'inscription reste valide même si l'email ne marche pas
       }
 
       res.redirect("/login");
@@ -101,7 +100,7 @@ exports.postLogin = async (req, res) => {
     }
 
     if (email) {
-      // Vérifier d'abord si c'est un employé
+      // c'est un employé ?
       const employee = await prisma.employee.findUnique({
         where: { email }
       });
@@ -111,7 +110,7 @@ exports.postLogin = async (req, res) => {
         return res.redirect("/employee/home");
       }
 
-      // 🆕 Vérifier si c'est un chef d'entreprise
+      //c'est un chef d'entreprise ?
       const user = await prisma.user.findUnique({
         where: { email }
       });
@@ -154,7 +153,7 @@ exports.postUpdateProfile = [
 
       const updateData = {
         companyName,
-        email, // 🆕 Mise à jour de l'email
+        email,
         directorName,
         avatar: avatarPath
       };
