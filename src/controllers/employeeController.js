@@ -1,8 +1,8 @@
-const { PrismaClient } = require("../../generated/prisma");
-const upload = require("../services/upload");
-const bcrypt = require("bcrypt");
-const emailService = require("../services/emailService");
-const prisma = new PrismaClient({});
+const { PrismaClient } = require("../../generated/prisma"); // Importation de PrismaClient pour la gestion de la base de données
+const upload = require("../services/upload"); // Importation du middleware d'upload pour gérer les fichiers
+const bcrypt = require("bcrypt"); // Importation de bcrypt pour le hashage des mots de passe
+const emailService = require("../services/emailService"); // Importation du service d'email pour l'envoi d'emails
+const prisma = new PrismaClient({}); // Initialisation de PrismaClient
 
 exports.getEmployeeHome = async (req, res) => { // exports pour controller 
   try {

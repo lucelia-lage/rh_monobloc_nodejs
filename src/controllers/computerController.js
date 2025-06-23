@@ -1,5 +1,5 @@
-const { PrismaClient } = require("../../generated/prisma");
-const prisma = new PrismaClient();
+const { PrismaClient } = require("../../generated/prisma"); // Importation de PrismaClient pour la gestion de la base de données
+const prisma = new PrismaClient(); // Initialisation de PrismaClient
 
 exports.getAddComputer = async (req, res) => {
     const employees = await prisma.employee.findMany({ // récupère les employés de l'utilisateur connecté
