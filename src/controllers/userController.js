@@ -1,17 +1,17 @@
-const { PrismaClient } = require("../../generated/prisma");
-const upload = require("../services/upload");
-const bcrypt = require("bcrypt");
-const hashPasswordExtension = require("../services/extensions/hashPasswordExtension");
-const emailService = require("../services/emailService");
+const { PrismaClient } = require("../../generated/prisma"); // Import PrismaClient pour la gestion de la base de données
+const upload = require("../services/upload"); // Import du middleware d'upload
+const bcrypt = require("bcrypt"); // Import de bcrypt pour le hashage des mots de passe
+const hashPasswordExtension = require("../services/extensions/hashPasswordExtension"); // Import de l'extension pour le hashage des mots de passe
+const emailService = require("../services/emailService"); // Import du service d'email
 
-const prisma = new PrismaClient().$extends(hashPasswordExtension);
+const prisma = new PrismaClient().$extends(hashPasswordExtension); // Initialisation de PrismaClient avec l'extension de hashage des mots de passe
 
-exports.getRegister = async (req, res) => {
-  res.render("pages/register.twig");
+exports.getRegister = async (req, res) => { // Récupération de la page d'inscription
+  res.render("pages/register.twig"); // on affiche la page d'inscription
 };
 
 exports.postRegister = [
-  upload.single('avatar'),
+  upload.single('avatar'), // Middleware pour gérer l'upload de l'avatar
   async (req, res) => {
     try {
       const { companyName, siret, email, password, confirmPassword, directorName } = req.body;
@@ -21,14 +21,14 @@ exports.postRegister = [
       }
 
       // utilisateur avec email
-      const user = await prisma.user.create({
+      const user = await prisma.user.create({ // Création de l'utilisateur
         data: {
           companyName,
           siret,
           email, 
           password, 
           directorName,
-          avatar: req.file ? '/uploads/' + req.file.filename : null
+          avatar: req.file ? '/uploads/' + req.file.filename : null // Chemin de l'avatar, si uploadé
         }
       });
 
@@ -158,13 +158,13 @@ exports.postUpdateProfile = [
         avatar: avatarPath
       };
 
-      if (password && password.trim() !== '') {
+      if (password && password.trim() !== '') { // Si un mot de passe est fourni, on le hash (trim : pour enlever les espaces inutiles)
         updateData.password = await bcrypt.hash(password, 10);
       }
 
       const updatedUser = await prisma.user.update({
         where: { id: req.session.user.id },
-        data: updateData
+        data: updateData // on met à jour les données de l'utilisateur
       });
 
       req.session.user = { ...req.session.user, ...updatedUser };
@@ -176,7 +176,7 @@ exports.postUpdateProfile = [
       
       // Gestion des erreurs Prisma
       let customError = error;
-      if (error.code === 'P2002') {
+      if (error.code === 'P2002') { // Erreur de contrainte d'unicité = ça veut dire que l'email ou le SIRET existe déjà
         if (error.meta?.target?.includes('email')) {
           customError = { email: "Cet email existe déjà" };
         }

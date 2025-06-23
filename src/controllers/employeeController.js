@@ -4,39 +4,39 @@ const bcrypt = require("bcrypt");
 const emailService = require("../services/emailService");
 const prisma = new PrismaClient({});
 
-exports.getEmployeeHome = async (req, res) => {
+exports.getEmployeeHome = async (req, res) => { // exports pour controller 
   try {
-    const employee = await prisma.employee.findUnique({
-      where: { id: req.session.user.id },
-      include: { computers: true }
+    const employee = await prisma.employee.findUnique({ // Récupération de l'employé connecté
+      where: { id: req.session.user.id }, // on utilise l'id de l'utilisateur connecté
+      include: { computers: true } // Inclure les ordinateurs associés à l'employé
     });
 
-    res.render("pages/employeeHome.twig", {
+    res.render("pages/employeeHome.twig", { // Rendu de la page d'accueil de l'employé
       user: employee,
       computer: employee.computers[0] // un employé est associé à un seul ordinateur
     });
   } catch (error) {
     console.error(" Erreur lors du chargement de l'accueil employé:", error);
     res.render("pages/employeeHome.twig", {
-      user: req.session.user,
-      computer: null
+      user: req.session.user, // si l'employé n'est pas trouvé, on redirige vers la page d'accueil
+      computer: null // pas d'ordinateur associé
     });
   }
 };
 
-exports.getAddEmployee = async (req, res) => {
+exports.getAddEmployee = async (req, res) => { // Récupération de la page d'ajout d'employé
   res.render("pages/employee.twig", {
-    user: req.session.user
+    user: req.session.user // on passe l'utilisateur connecté pour le formulaire
   });
 };
 
-exports.postAddEmployee = [
-  upload.single('avatar'),
+exports.postAddEmployee = [ // Middleware pour gérer l'upload de l'avatar
+  upload.single('avatar'), // on utilise multer pour gérer l'upload de fichier
   async (req, res) => {
     try {
-      const { firstName, lastName, email, password, age, gender } = req.body;
-      const hashedPassword = await bcrypt.hash(password, 10);
-      const avatarPath = req.file ? `/uploads/${req.file.filename}` : null;
+      const { firstName, lastName, email, password, age, gender } = req.body; // récupération des données du formulaire
+      const hashedPassword = await bcrypt.hash(password, 10); // Hashage du mot de passe
+      const avatarPath = req.file ? `/uploads/${req.file.filename}` : null; // Chemin de l'avatar, si uploadé
 
       const employee = await prisma.employee.create({
         data: {
@@ -55,17 +55,17 @@ exports.postAddEmployee = [
 
       // Envoi de l'email de bienvenue à l'employé
       try {
-        const companyData = await prisma.user.findUnique({
-          where: { id: req.session.user.id }
+        const companyData = await prisma.user.findUnique({ // Récupération des données de l'entreprise
+          where: { id: req.session.user.id } // on utilise l'id de l'utilisateur connecté
         });
 
-        const emailResult = await emailService.sendEmployeeWelcomeEmail(
+        const emailResult = await emailService.sendEmployeeWelcomeEmail( // Envoi de l'email de bienvenue
           email,
           { firstName, lastName, email },
           companyData
         );
 
-        if (emailResult.success) {
+        if (emailResult.success) { // Si l'email a été envoyé avec succès
           console.log(' Email de bienvenue employé envoyé avec succès');
         } else {
           console.error(' Erreur envoi email employé:', emailResult.error);
@@ -79,7 +79,7 @@ exports.postAddEmployee = [
       console.error(" Erreur lors de l'ajout de l'employé:", error);
 
       let customError = error;
-      if (error.code === 'P2002') {
+      if (error.code === 'P2002') { // Gestion des erreurs Prisma
         if (error.meta?.target?.includes('email')) {
           customError = { email: "Cet email existe déjà" };
         }
@@ -115,7 +115,7 @@ exports.getUpdateEmployee = async (req, res) => {
 };
 
 exports.postUpdateEmployee = [
-  upload.single('avatar'),
+  upload.single('avatar'), // single pour un seul fichier // on utilise multer pour gérer l'upload de fichier
   async (req, res) => {
     try {
       const { firstName, lastName, email, password, age, gender } = req.body;

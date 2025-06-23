@@ -5,7 +5,7 @@ const testEmailConfiguration = async () => {
   console.log(' Test de configuration email...\n');
   
   // 1. Vérifier les variables d'environnement
-  console.log('📋 Variables d\'environnement :');
+  console.log('Variables d\'environnement :');
   console.log('EMAIL_USER:', process.env.EMAIL_USER);
   console.log('EMAIL_PASS:', process.env.EMAIL_PASS ? '***masqué***' : 'NON DÉFINI');
   console.log('APP_URL:', process.env.APP_URL);

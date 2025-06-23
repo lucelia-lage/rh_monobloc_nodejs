@@ -1,7 +1,7 @@
-const nodemailer = require('nodemailer');
+const nodemailer = require('nodemailer'); // Importation du module nodemailer pour l'envoi d'emails
 
 // Config transporteur d'emails : 
-const createTransporter = () => {
+const createTransporter = () => { // Création d'un transporteur pour envoyer des emails
   return nodemailer.createTransport({ 
     service: 'gmail',
     auth: {
@@ -16,7 +16,7 @@ const sendWelcomeEmail = async (userEmail, userData) => {
   try {
     const transporter = createTransporter();
     
-    const mailOptions = {
+    const mailOptions = { // Configuration des options de l'email
       from: {
         name: 'RHelp You',
         address: process.env.EMAIL_USER
@@ -28,11 +28,11 @@ const sendWelcomeEmail = async (userEmail, userData) => {
     };
     
     // Envoi de l'email
-    const info = await transporter.sendMail(mailOptions);
+    const info = await transporter.sendMail(mailOptions); // Envoi de l'email avec les options définies
     console.log(' Email envoyé avec succès:', info.messageId);
     return { 
       success: true, 
-      messageId: info.messageId 
+      messageId: info.messageId  // Détails de l'email envoyé
     };
     
   } catch (error) {
@@ -45,11 +45,11 @@ const sendWelcomeEmail = async (userEmail, userData) => {
 };
 
 // Fonction pour envoyer l'email de bienvenue aux employés : 
-const sendEmployeeWelcomeEmail = async (employeeEmail, employeeData, companyData) => {
+const sendEmployeeWelcomeEmail = async (employeeEmail, employeeData, companyData) => { // Envoi de l'email de bienvenue à un employé
   try {
-    const transporter = createTransporter();
+    const transporter = createTransporter(); // Création du transporteur d'emails
     
-    const mailOptions = {
+    const mailOptions = { // Configuration des options de l'email
       from: {
         name: 'RHelp You',
         address: process.env.EMAIL_USER
@@ -77,7 +77,7 @@ const sendEmployeeWelcomeEmail = async (employeeEmail, employeeData, companyData
 };
 
 // Génération du contenu HTML de l'email pour chef d'entreprise : 
-const generateWelcomeEmailHTML = (userData) => {
+const generateWelcomeEmailHTML = (userData) => { // Génération du contenu HTML de l'email de bienvenue pour le chef d'entreprise
   return `
     <!DOCTYPE html>
     <html>
@@ -180,7 +180,7 @@ const generateWelcomeEmailHTML = (userData) => {
 };
 
 // Génération du contenu HTML de l'email pour employé : 
-const generateEmployeeWelcomeEmailHTML = (employeeData, companyData) => {
+const generateEmployeeWelcomeEmailHTML = (employeeData, companyData) => { // Génération du contenu HTML de l'email de bienvenue pour un employé
   return `
     <!DOCTYPE html>
     <html>
@@ -279,7 +279,7 @@ const generateEmployeeWelcomeEmailHTML = (employeeData, companyData) => {
 };
 
 // Version texte de l'email chef d'entreprise 
-const generateWelcomeEmailText = (userData) => {
+const generateWelcomeEmailText = (userData) => { // Version texte de l'email de bienvenue pour le chef d'entreprise 
   return `
 🎉 Bienvenue sur RHelp You !
 
@@ -319,7 +319,7 @@ Cet email a été envoyé automatiquement. Merci de ne pas y répondre.
 };
 
 // Version texte de l'email employé
-const generateEmployeeWelcomeEmailText = (employeeData, companyData) => {
+const generateEmployeeWelcomeEmailText = (employeeData, companyData) => { // Version texte de l'email de bienvenue pour un employé
   return `
 👋 Bienvenue dans l'équipe !
 
@@ -355,10 +355,10 @@ Cet email a été envoyé automatiquement. Merci de ne pas y répondre.
 };
 
 // Fonction utilitaire pour tester la connexion email
-const testEmailConnection = async () => {
+const testEmailConnection = async () => { // Fonction pour tester la connexion email
   try {
-    const transporter = createTransporter();
-    await transporter.verify();
+    const transporter = createTransporter(); // Création du transporteur d'emails
+    await transporter.verify(); // Vérification de la connexion au serveur email
     console.log('Configuration email valide');
     return true;
   } catch (error) {
@@ -368,7 +368,7 @@ const testEmailConnection = async () => {
 };
 
 module.exports = {
-  sendWelcomeEmail,
-  sendEmployeeWelcomeEmail,
-  testEmailConnection
+  sendWelcomeEmail, // Exportation de la fonction d'envoi de l'email de bienvenue
+  sendEmployeeWelcomeEmail, // Exportation de la fonction d'envoi de l'email de bienvenue à un employé
+  testEmailConnection // Exportation de la fonction de test de connexion email
 };

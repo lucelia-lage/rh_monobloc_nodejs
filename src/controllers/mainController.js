@@ -1,11 +1,11 @@
-const { PrismaClient } = require("../../generated/prisma");
-const prisma = new PrismaClient({});
+const { PrismaClient } = require("../../generated/prisma"); // Import PrismaClient
+const prisma = new PrismaClient({}); // Initialize PrismaClient
 
-exports.getHome = async (req, res) => {
+exports.getHome = async (req, res) => { // ça c'est la route pour la page d'accueil
     try {
-        const user = await prisma.user.findUnique({
+        const user = await prisma.user.findUnique({ // Récupération de l'utilisateur connecté
             where: { id: req.session.user.id },
-            include: {
+            include: { // Inclure les ordinateurs et employés associés
                 employees: true,
                 computers: {
                     include: { employee: true }
