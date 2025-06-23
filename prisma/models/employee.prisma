@@ -1,3 +1,4 @@
+// Traducteur entre mon code et la base de données
 model Employee {
     id        Int     @id @default(autoincrement())
     firstName String
@@ -8,6 +9,6 @@ model Employee {
     gender    String?
     avatar       String?
     userId Int
-    user   User @relation(fields: [userId], references: [id])
+    user   User @relation(fields: [userId], references: [id]) // relation entre l'employé et l'utilisateur : @relation fait le lien entre les deux modèles (fields indique la clé étrangère dans le modèle Employee et references indique la clé primaire dans le modèle User)
     computers Computer[]
 }

@@ -1,3 +1,4 @@
+// Définit les URLs et associe aux controllers
 const express = require("express"); // sert à créer un routeur Express pour gérer les routes liées aux ordinateurs
 const router = express.Router(); // Importation du contrôleur pour gérer la logique métier des ordinateurs
 const computerController = require("../controllers/computerController"); // Importation du middleware d'authentification pour protéger les routes

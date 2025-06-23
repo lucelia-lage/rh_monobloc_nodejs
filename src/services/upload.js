@@ -1,4 +1,4 @@
-const multer = require('multer');
+const multer = require('multer'); // Importation de Multer pour gérer l'upload de fichiers : middleware pour gérer l'upload de fichiers dans Express
 
 // Config du stockage
 const storage = multer.diskStorage({ // diskStorage permet de stocker les fichiers sur le disque

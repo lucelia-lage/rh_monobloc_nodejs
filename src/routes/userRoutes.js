@@ -1,3 +1,4 @@
+// Définit les URLs et associe aux controllers
 const express = require("express"); // Importation du module express pour créer des routes
 const router = express.Router(); // Création d'un routeur pour gérer les routes liées aux utilisateurs
 const userController = require("../controllers/userController"); // Importation du contrôleur pour gérer la logique métier des utilisateurs

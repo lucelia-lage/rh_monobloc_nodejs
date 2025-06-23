@@ -1,3 +1,4 @@
+// Définit les URLs et associe aux controllers
 const express = require("express"); // Import express pour créer des routes
 const router = express.Router(); // Créer un routeur pour gérer les routes liées aux employés
 const employeeController = require("../controllers/employeeController"); // Importer le middleware d'authentification pour protéger les routes

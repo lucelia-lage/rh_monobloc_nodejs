@@ -1,3 +1,4 @@
+// Traducteur entre mon code et la base de données
 model Computer {
     id         Int    @id @default(autoincrement())
     macAddress String @unique

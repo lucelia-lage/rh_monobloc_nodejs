@@ -1,3 +1,4 @@
+// Traducteur entre mon code et la base de données
 model User {
     id           Int     @id @default(autoincrement())
     companyName  String

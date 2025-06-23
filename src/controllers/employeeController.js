@@ -1,3 +1,4 @@
+// Logique métier pour chaque entité 
 const { PrismaClient } = require("../../generated/prisma"); // Importation de PrismaClient pour la gestion de la base de données
 const upload = require("../services/upload"); // Importation du middleware d'upload pour gérer les fichiers
 const bcrypt = require("bcrypt"); // Importation de bcrypt pour le hashage des mots de passe

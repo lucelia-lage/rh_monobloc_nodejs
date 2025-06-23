@@ -1,3 +1,4 @@
+// Logique métier pour chaque entité 
 const { PrismaClient } = require("../../generated/prisma"); // Importation de PrismaClient pour la gestion de la base de données
 const prisma = new PrismaClient(); // Initialisation de PrismaClient
 

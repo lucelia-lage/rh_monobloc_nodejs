@@ -1,4 +1,5 @@
-const express = require("express") // Importation du module express pour créer des routes
+// app.js : Point d'entrée principal, démarre le serveur
+const express = require("express") // Importation du module express pour créer des routes // = La fondation de ton serveur web
 const userRoutes = require("./src/routes/userRoutes"); // Importation des routes liées aux utilisateurs
 const mainRoutes = require("./src/routes/mainRoutes"); // Importation des routes principales de l'application
 const computerRoutes = require("./src/routes/computerRoutes"); // Importation des routes liées aux ordinateurs

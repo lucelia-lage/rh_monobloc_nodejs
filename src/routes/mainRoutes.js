@@ -1,3 +1,4 @@
+// Définit les URLs et associe aux controllers
 const express = require("express"); // Importation du module express
 const router = express.Router(); // Création d'un routeur Express pour gérer les routes principales de l'application
 const mainController = require("../controllers/mainController"); // Importation du contrôleur principal pour gérer la logique métier des routes principales

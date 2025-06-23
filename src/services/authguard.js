@@ -1,3 +1,4 @@
+//Vérification des autorisations : ça veut dire que l'utilisateur doit être connecté pour accéder à certaines routes
 const authguard = async(req, res, next) => { // Middleware pour protéger les routes // Vérifie si l'utilisateur est connecté
     try{
         if(req.session.user){ // Si l'utilisateur est connecté, on continue
